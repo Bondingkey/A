@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <base th:href="@{/}">
+    <meta charset="UTF-8"/>
+    <title>尚硅谷会员注册页面</title>
+    <link type="text/css" rel="stylesheet" href="static/css/style.css"/>
+    <link rel="stylesheet" href="static/css/register.css"/>
+    <style type="text/css">
+        .login_form {
+            height: 420px;
+            margin-top: 25px;
+        }
+    </style>
+    <script src="static/script/vue.js"></script>
+</head>
+<body>
+<div id="registpage"><!-- vue的操作区域 -->
+    <div id="login_header">
+        <a href="index.html">
+            <img class="logo_img" alt="" src="static/img/logo.gif"/>
+        </a>
+    </div>
+
+    <div class="login_banner">
+        <div class="register_form">
+            <h1>注册尚硅谷会员</h1>
+            <!-- 此处提交方式最好为post,因为get会把链接后面自带的参数覆盖 -->
+            <form th:action="@{user(flag=regist)}" method="post" @submit="checkregist">
+                <div class="form-item">
+                    <div>
+                        <label>用户名称:</label>
+                        <input type="text" name="username" placeholder="请输入用户名" v-model="username"/>
+                    </div>
+                    <span class="errMess" id="nameError">用户名应为6~16位数组和字母组成</span>
+                </div>
+                <div class="form-item">
+                    <div>
+                        <label>用户密码:</label>
+                        <input type="password" name="password" id="password" placeholder="请输入密码" v-model="password"/>
+                    </div>
+                    <span class="errMess" id="passwordError">密码的长度至少为8位</span>
+                </div>
+                <div class="form-item">
+                    <div>
+                        <label>确认密码:</label>
+                        <input type="password" placeholder="请输入确认密码" v-model="passwordAgain"/>
+                    </div>
+                    <span class="errMess" id="passwordAgainError">密码两次输入不一致</span>
+                </div>
+                <div class="form-item">
+                    <div>
+                        <label>用户邮箱:</label>
+                        <input type="text" name="email" placeholder="请输入邮箱" v-model="checkEmail"/>
+                    </div>
+                    <span class="errMess" id="EmailError">请输入正确的邮箱格式</span>
+                </div>
+
+                <div class="form-item">
+                    <div>
+                        <label>验证码:</label>
+                        <div class="verify">
+                            <input type="text" placeholder=""/>
+                            <img src="static/img/code.bmp" alt="" height="50px"/>
+                        </div>
+                    </div>
+                    <span class="errMess">请输入正确的验证码</span>
+                </div>
+                <button class="btn">注册</button>
+            </form>
+        </div>
+    </div>
+    <div id="bottom">
+      <span>
+        尚硅谷书城.Copyright &copy;2015
+      </span>
+    </div>
+</div><!-- Vue的操作区域 -->
+<script>
+    new Vue({
+        el: "#registpage",
+        data: {
+            username: "",
+            usernameor: "",
+            password: "",
+            passwordor: "",
+            passwordAgain: "",
+            passwordAgainor: "",
+            checkEmail: "",
+            checkEmailor: ""
+        },
+        methods: {
+            checkregist() {
+                if (!(this.usernameor & this.passwordor & this.passwordAgainor & this.checkEmailor)) {
+                    event.preventDefault();
+                }
+            }
+        },
+        watch: {
+            username: function () {
+                let msg = /^[a-zA-Z0-9]{6,16}$/
+                if (msg.test(this.username)) {
+                    let nameError = document.getElementById("nameError");
+                    nameError.innerHTML = "<br>";
+                    this.usernameor = true;
+                } else {
+                    nameError.innerHTML = "用户名应为6~16位数组和字母组成";
+                    this.usernameor = false;
+                }
+            },
+            password: function () {
+                let msg = /^[a-zA-Z0-9]{8,}$/
+                if (msg.test(this.password)) {
+                    let passwordError = document.getElementById("passwordError");
+                    passwordError.innerHTML = "<br>"
+                    this.passwordor = true;
+                } else {
+                    passwordError.innerHTML = "密码的长度至少为8位"
+                    this.passwordor = false;
+                }
+            },
+            passwordAgain: function () {
+                let msg = /^[a-zA-Z0-9]{8,}$/
+                if (this.passwordAgain == this.password && msg.test(this.passwordAgain)) {
+                    let elementById = document.getElementById("passwordAgainError");
+                    elementById.innerHTML = "<br>"
+                    this.passwordAgainor = true
+                } else {
+                    let elementById = document.getElementById("passwordAgainError");
+                    elementById.innerHTML = "密码两次输入不一致";
+                    this.passwordAgainor = false
+                }
+            },
+            checkEmail: function () {
+                let msg = /^[a-zA-Z0-9_\.-]+@([a-zA-Z0-9-]+[\.]{1})+com$/
+                if (msg.test(this.checkEmail)) {
+                    let EmailError = document.getElementById("EmailError");
+                    EmailError.innerHTML = "<br>"
+                    this.checkEmailor = true
+                } else {
+                    EmailError.innerHTML = "请输入正确的邮箱格式"
+                    this.checkEmailor = false
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
