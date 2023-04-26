@@ -13,4 +13,14 @@
         <param-name>view-suffix</param-name>
         <param-value>.html</param-value>
     </context-param>
+
+    <servlet>
+        <servlet-name>KaptchaServlet</servlet-name>
+        <servlet-class>com.google.code.kaptcha.servlet.KaptchaServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>KaptchaServlet</servlet-name>
+        <url-pattern>/KaptchaServlet</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -87,7 +87,5 @@ public class BookServlet extends BaseServlet {
         if (update){
             response.sendRedirect(request.getContextPath()+"/Book?flag=ToBookManager");
         }
-
-
     }
 }

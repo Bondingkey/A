@@ -60,11 +60,11 @@
                     <div>
                         <label>验证码:</label>
                         <div class="verify">
-                            <input type="text" placeholder=""/>
-                            <img src="static/img/code.bmp" alt="" height="50px"/>
+                            <input type="text" placeholder="" name="code" v-model="code"/>
+                            <img :src="codeSrc" alt="" width="130px" @click="changimg"/>
                         </div>
                     </div>
-                    <span class="errMess">请输入正确的验证码</span>
+                    <span class="errMess">{{codeError}}</span>
                 </div>
                 <button class="btn">注册</button>
             </form>
@@ -80,20 +80,26 @@
     new Vue({
         el: "#registpage",
         data: {
-            username: "",
-            usernameor: "",
-            password: "",
-            passwordor: "",
-            passwordAgain: "",
-            passwordAgainor: "",
-            checkEmail: "",
-            checkEmailor: ""
+            username:"[[${user!=null?user.username:''}]]",
+            usernameor:"",
+            password:"[[${user!=null?user.password:''}]]",
+            passwordor:"",
+            passwordAgain:"[[${user!=null?user.password:''}]]",
+            passwordAgainor:"",
+            checkEmail:"[[${user!=null?user.email:''}]]",
+            checkEmailor:"",
+            code:"[[${code}]]",
+            codeError:"[[${codeError==null? '请输入正确的验证码':codeError}]]",
+            codeSrc:"KaptchaServlet"
         },
         methods: {
             checkregist() {
                 if (!(this.usernameor & this.passwordor & this.passwordAgainor & this.checkEmailor)) {
                     event.preventDefault();
                 }
+            },
+            changimg(){
+                this.codeSrc="KaptchaServlet?aa="+new Date();
             }
         },
         watch: {

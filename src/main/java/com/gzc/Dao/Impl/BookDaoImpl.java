@@ -52,5 +52,4 @@ public class BookDaoImpl extends BaseDaoImpl implements BookDao {
         String sql = "update books set title=?,author=?,price=?,sales=?,stock=? where id = ?";
         return this.update(sql,book.getBookName(),book.getAuthor(),book.getPrice(),book.getSales(),book.getStock(),book.getBookId())>0;
     }
-
 }

@@ -20,14 +20,8 @@ public class UserService {
 
     private UserDao userDao = new UserDaoImpl();
 
-    public boolean addUser(Map<String, String[]> parameterMap) {
-        User user = new User();
-        try {
-            //将map集合中存的参数分别赋值给user对象的属性(要求:参数的key必须和对象的属性名一致)
-            BeanUtils.populate(user,parameterMap);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public boolean addUser(User user) {
+
         //加密
         user.setPassword(MD5Util.encode(user.getPassword()));
         //调用持久化层写入数据返回结果
