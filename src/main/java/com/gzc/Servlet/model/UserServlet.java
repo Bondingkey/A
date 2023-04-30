@@ -1,8 +1,11 @@
 package com.gzc.Servlet.model;
 
+import com.google.gson.Gson;
 import com.gzc.Servlet.base.BaseServlet;
 import com.gzc.pojo.User;
 import com.gzc.service.UserService;
+import com.gzc.utils.CommonResult;
+import com.mysql.cj.log.NullLogger;
 import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
@@ -93,5 +96,24 @@ public class UserServlet extends BaseServlet {
         HttpSession session = request.getSession();
         session.invalidate();
         response.sendRedirect(request.getContextPath() + "/index.html");
+    }
+
+    protected void CheckUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("usernames");
+        User user = userService.selectUserById(username);
+        System.out.println("user = " + user);
+        CommonResult usernameerror = null;
+        if (user!=null){
+            System.out.println("hhhhhhhhhhhhhhhh");
+            usernameerror = CommonResult.error();
+            String s =new Gson().toJson(usernameerror);
+            System.out.println("s = " + s);
+            response.getWriter().print(s);
+        }else {
+            usernameerror = CommonResult.ok();
+            String s = new Gson().toJson(usernameerror);
+            System.out.println("s = " + s);
+            response.getWriter().print(s);
+        }
     }
 }

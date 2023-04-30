@@ -41,4 +41,8 @@ public class UserService {
         }
         return null;
     }
+
+    public User selectUserById(String username){
+       return  userDao.selectUser(username);
+    }
 }

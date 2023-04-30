@@ -13,6 +13,7 @@
         }
     </style>
     <script src="static/script/vue.js"></script>
+    <script src="static/script/axios.min.js"></script>
 </head>
 <body>
 <div id="registpage"><!-- vue的操作区域 -->
@@ -103,12 +104,27 @@
             }
         },
         watch: {
-            username: function () {
+            username:function () {
                 let msg = /^[a-zA-Z0-9]{6,16}$/
                 if (msg.test(this.username)) {
                     let nameError = document.getElementById("nameError");
-                    nameError.innerHTML = "<br>";
-                    this.usernameor = true;
+                    //向服务器发送异步请求
+                    axios({
+                        method: "post",
+                        url: "user",
+                        params: {
+                            flag: "CheckUser",
+                            usernames:this.username
+                        }
+                    }).then(response => {
+                        if (response.data.flag) {
+                            nameError.innerHTML = "<br>";
+                            this.usernameor = true;
+                        } else {
+                            nameError.innerHTML = "用户名已被注册";
+                            this.usernameor = false;
+                        }
+                    });
                 } else {
                     nameError.innerHTML = "用户名应为6~16位数组和字母组成";
                     this.usernameor = false;

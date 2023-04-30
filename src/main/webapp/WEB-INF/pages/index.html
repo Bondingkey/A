@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="static/css/iconfont.css" />
     <link rel="stylesheet" href="static/css/index.css" />
     <link rel="stylesheet" href="static/css/swiper.min.css" />
+    <script src="static/script/vue.js"></script>
+    <script src="static/script/axios.min.js"></script>
   </head>
   <body>
     <div id="app">
@@ -31,26 +33,19 @@
           <div class="topbar-right" th:if="${session.user==null}">
             <a th:href="@{user(flag=toLogin)}" class="login">登录</a>
             <a th:href="@{user(flag=toRegist)}" class="register">注册</a>
-            <a
-              href="pages/cart/cart.html"
-              class="cart iconfont icon-gouwuche
-			"
-            >
+            <a th:href="@{cart(flag=ToCartPages)}" class="cart iconfont icon-gouwuche">
               购物车
-              <div class="cart-num">3</div>
+              <div class="cart-num">{{totalCount}}</div>
             </a>
             <a th:href="@{Book(flag=ToBookManager)}" class="admin">后台管理</a>
           </div>
-<!--          登录后风格-->
+<!--登录后风格-->
           <div class="topbar-right" th:unless="${session.user==null}">
             <span>欢迎你<b th:text="${session.user.username}">张总</b></span>
             <a th:href="@{user(flag=logout)}" class="register">注销</a>
-            <a
-                    href="pages/cart/cart.jsp"
-                    class="cart iconfont icon-gouwuche
-			">
+            <a th:href="@{cart(flag=ToCartPages)}" class="cart iconfont icon-gouwuche">
               购物车
-              <div class="cart-num">3</div>
+              <div class="cart-num">{{totalCount}}</div>
             </a>
             <a th:href="@{Book(flag=ToBookManager)}" class="admin">后台管理</a>
           </div>
@@ -168,7 +163,7 @@
                 <p>价格:￥<span th:text="${book.bookName}">66.6</span></p>
                 <p>销量:<span  th:text="${book.sales}">230</span></p>
                 <p>库存:<span  th:text="${book.stock}">1000</span></p>
-                <button>加入购物车</button>
+                <button @click="addCart" th:name="${book.bookId}">加入购物车</button>
               </div>
             </div>
             <div class="list-footer">
@@ -280,10 +275,6 @@
                     </div>
                     <button>立即购买</button>
                   </a>
-             
-           
-                 
-             
               </ul>
             </div>
           </div>
@@ -358,6 +349,33 @@
           prevEl: '.swiper-button-prev'
         }
       })
+    </script>
+    <script>
+    new Vue({
+      el:"#app",
+      data:{
+        totalCount:"[[${session.cart==null?0:session.cart.totalCount}]]"
+      },
+      methods:{
+        addCart:function (){
+          //获取当前事件的目标的name值,就能拿到图书id
+          let id = event.target.name;
+          axios({
+            method:"post",
+            url:"cart",
+            params:{
+              flag:"addBookCart",
+              id:id
+            }
+          }).then(response=>{
+              if(response.data.flag){
+                this.totalCount=response.data.resultData;
+              }
+
+          });
+        }
+      },
+    });
     </script>
   </body>
 </html>
