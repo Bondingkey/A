@@ -57,9 +57,9 @@ public class CartServlet extends BaseServlet {
     }
 
     protected void showCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
 
-        Cart cart = (Cart) request.getSession().getAttribute("cart");
+        HttpSession session = request.getSession();
+        Cart cart = (Cart)session.getAttribute("cart");
 
         Collection<CartItem> all = cart.all();
         Integer totalCount = cart.getTotalCount();
@@ -74,6 +74,7 @@ public class CartServlet extends BaseServlet {
         String s = new Gson().toJson(commonResult);
         System.out.println("s = " + s);
 
+        response.setContentType("text/html;charset=UTF-8");
         response.getWriter().print(s);
     }
 

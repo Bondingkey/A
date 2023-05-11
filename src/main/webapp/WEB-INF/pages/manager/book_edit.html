@@ -11,15 +11,15 @@
     <link rel="stylesheet" href="static/css/cart.css" />
     <link rel="stylesheet" href="static/css/bookManger.css" />
     <link rel="stylesheet" href="static/css/register.css" />
-    <link rel="stylesheet" href="static/css/book_edit.css" />
+    <link rel="stylesheet" href="static/css/book_edit.css"/>
   </head>
   <body>
     <div class="header">
       <div class="w">
         <div class="header-left">
           <a href="index.html">
-            <img src="static/img/logo.gif" alt=""
-          /></a>
+            <img src="static/img/logo.gif" alt=""/>
+          </a>
           <h1>编辑图书</h1>
         </div>
         <div class="header-right" th:include="manager/base::header"></div>
@@ -34,9 +34,9 @@
               <input type="hidden" th:value="${book.bookId}" name="bookId">
               <input type="text" placeholder="请输入名称" th:value="${book.bookName}" name="bookName" />
             </div>
-            <span class="errMess" style="visibility: visible;"
-              >请输入正确的名称</span
-            >
+            <span class="errMess" style="visibility: visible;">
+              请输入正确的名称
+            </span>
           </div>
           <div class="form-item">
             <div>

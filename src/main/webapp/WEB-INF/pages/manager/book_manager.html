@@ -52,10 +52,10 @@
               <td th:text="${book.author}">余华</td>
               <td th:text="${book.sales}">200</td>
               <td th:text="${book.stock}">400</td>
-              <td><input type="hidden" th:value="${book.bookId}" name="bookid"></td>
               <td>
                 <a th:href="@{Book(flag=ToUpdatePage,bookid=${book.bookId})}">修改</a><a th:href="@{Book(flag=deleteBook,bookid=${book.bookId})}" class="del">删除</a>
               </td>
+              <td><input type="hidden" th:value="${book.bookId}" name="bookid"></td>
             </tr>
           </tbody>
         </table>

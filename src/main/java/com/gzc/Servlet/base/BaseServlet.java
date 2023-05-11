@@ -28,6 +28,7 @@ public class BaseServlet extends ViewBaseServlet{
             method.invoke(this,request,response);
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 }

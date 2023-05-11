@@ -104,15 +104,12 @@ public class UserServlet extends BaseServlet {
         System.out.println("user = " + user);
         CommonResult usernameerror = null;
         if (user!=null){
-            System.out.println("hhhhhhhhhhhhhhhh");
             usernameerror = CommonResult.error();
             String s =new Gson().toJson(usernameerror);
-            System.out.println("s = " + s);
             response.getWriter().print(s);
         }else {
             usernameerror = CommonResult.ok();
             String s = new Gson().toJson(usernameerror);
-            System.out.println("s = " + s);
             response.getWriter().print(s);
         }
     }
